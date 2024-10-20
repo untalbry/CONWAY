@@ -1,6 +1,10 @@
 import pygame 
+
+
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
+bg = 25, 25, 25
+screen.fill(bg)
 clock = pygame.time.Clock()
 running = True
 dt = 0
@@ -12,7 +16,6 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    screen.fill("black")
     # Rect(x, y, width, heigth)
     square_rect = pygame.Rect((screen.get_width() / 2) - square_size / 2,(screen.get_height() / 2) - square_size / 2,square_size,square_size)
     pygame.draw.rect(screen, "white", square_rect)
