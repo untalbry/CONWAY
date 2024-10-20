@@ -1,24 +1,35 @@
 import pygame 
 
+#Initial configuration 
+width, height = 1280, 720
+bg = 25, 25, 25
+running = True
+
 
 pygame.init()
-screen = pygame.display.set_mode((1280, 720))
-bg = 25, 25, 25
+screen = pygame.display.set_mode((width, height))
 screen.fill(bg)
 clock = pygame.time.Clock()
-running = True
-dt = 0
-player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
-square_size = 25
 
+cell_size = 40  # Tamaño fijo de cada celda
+num_columns = width // cell_size
+num_rows = height // cell_size
+
+#Main loop 
 while running:
+    #EXIT 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
-    # Rect(x, y, width, heigth)
-    square_rect = pygame.Rect((screen.get_width() / 2) - square_size / 2,(screen.get_height() / 2) - square_size / 2,square_size,square_size)
-    pygame.draw.rect(screen, "white", square_rect)
+    #Draw grid
+    for y in range(0, num_rows):
+        for x in range(0, num_columns): 
+            poly = [((x)    *   cell_size, y       * cell_size),
+                    ((x+1)  *   cell_size, y       * cell_size),
+                    ((x+1)  *   cell_size, (y+1)   * cell_size),
+                    ((x)    *   cell_size, (y+1)   * cell_size)
+            ]
+            pygame.draw.polygon(screen, (128, 128, 128), poly, 1)
     pygame.display.flip()
     clock.tick(60)
-pygame.quit()
+pygame.quit() 
