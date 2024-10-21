@@ -11,11 +11,10 @@ screen = pygame.display.set_mode((width, height))
 screen.fill(bg)
 clock = pygame.time.Clock()
 
-cell_size = 40  # Tamaño fijo de cada celda
+cell_size = 20 
 num_columns = width // cell_size
 num_rows = height // cell_size
 
-#cells flags : alive = 1 death = 0 
 gameState = np.zeros((num_rows, num_columns))
 
 #My first automata
@@ -27,14 +26,22 @@ gameState[0,3]=1
 
 #Main loop 
 while running:
+    newGameState = np.copy(gameState)
+    screen.fill(bg)
     #Events 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN:
             pause = not pause
-    newGameState = np.copy(gameState)
-    screen.fill(bg)
+        if pause: 
+            mouse_click = pygame.mouse.get_pressed()
+            if sum(mouse_click) > 0:
+                pos_x, pos_y = pygame.mouse.get_pos()  
+                cel_x, cel_y = int(pos_x / cell_size), int(pos_y / cell_size) 
+                if 0 <= cel_x < num_columns and 0 <= cel_y < num_rows:
+                    newGameState[cel_y, cel_x] = not mouse_click[2]
+
     #Draw grid
     for y in range(0, num_rows):
         for x in range(0, num_columns):
